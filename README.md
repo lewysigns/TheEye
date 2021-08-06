@@ -14,6 +14,7 @@
 ---
 
 * Receive ***event(s)*** sent by a single, or multiple, application(s)
+* Check the message came form a *trusted-client*
 * Set up validation for each event type
 * Group events by session, ordered by time of occurance
 
@@ -47,3 +48,9 @@
 * Documentation
 * Dockerize
 * reusable client
+
+### Assumptions
+
+---
+
+1. Because the applications are "trusted-clients"
