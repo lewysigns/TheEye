@@ -54,3 +54,12 @@
 ---
 
 1. Because the applications are "trusted-clients"
+
+### Required Libraries
+
+---
+
+* flask
+* flask_restful
+* flask_sqlalchemy
+* dotenv
