@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 import os
 
 
+from models.entity import EntityModel
+
+
 #
 # The .env file contains all of the configuration parameters
 #

@@ -54,6 +54,7 @@
 ---
 
 1. Because the applications are "trusted-clients"
+2. Applications are associated to sessions in someother application
 
 ### Required Libraries
 
