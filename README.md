@@ -55,6 +55,8 @@
 
 1. Because the applications are "trusted-clients"
 2. Applications are associated to sessions in someother application
+3. The entire event is not passed through the url, e.i /<name>/<category>/
+4. Time-Zone is consistent because no zone is given in the time-stamp
 
 ### Required Libraries
 
@@ -64,3 +66,5 @@
 * flask_restful
 * flask_sqlalchemy
 * dotenv
+* sqlalchemy
+* psycopg2
