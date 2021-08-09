@@ -72,7 +72,6 @@
 * sqlalchemy
 * psycopg2
 
-
 ## Conclusions
 
 ---
