@@ -1,4 +1,5 @@
 from celery import Celery
+import flask
 from dotenv import load_dotenv
 import os
 
@@ -16,6 +17,7 @@ class FlaskCelery(Celery):
 
         super(FlaskCelery, self).__init__(*args, **kwargs)
         self.patch_task()
+        self.app = None
 
         if 'app' in kwargs:
             self.init_app(kwargs['app'])
@@ -39,6 +41,7 @@ class FlaskCelery(Celery):
     def init_app(self, app):
         self.app = app
         self.config_from_object(app.config)
+
 
 celery = FlaskCelery('task',broker=celery_url)
 

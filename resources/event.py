@@ -1,7 +1,6 @@
 from flask_restful import Resource, reqparse
 import datetime
 
-
 from models.event import EventModel
 
 class Event(Resource):
@@ -34,8 +33,8 @@ class Event(Resource):
                         type=str,
                         required=True,
                         help="Every event needs a timestamp"
-                        )                                                                              
-
+                        )   
+                                                                                             
     def post(self):
 
         data = Event.parser.parse_args()
