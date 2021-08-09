@@ -33,11 +33,13 @@ api = Api(app)
 def create_tables():
     db.create_all()
 
-
-api.add_resource(Event,'/event/')
-api.add_resource(EventSession,'/event/session/<string:session_id>')
-api.add_resource(EventCategory,'/event/category/<string:category>')
-api.add_resource(EventTimerange,'/event/timerange/')
+#
+# Adding all the resources an application can use to interface with the database
+#
+api.add_resource(Event,'/event/') # Post an event
+api.add_resource(EventSession,'/event/session/<string:session_id>') # Get by session id
+api.add_resource(EventCategory,'/event/category/<string:category>') # Get by category
+api.add_resource(EventTimerange,'/event/timerange/') # Get by time range
 
 if __name__ == '__main__':
     from db import db

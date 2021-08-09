@@ -1,5 +1,6 @@
 from db import db
 from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy import and_
 
 
 class EventModel(db.Model):
@@ -35,7 +36,7 @@ class EventModel(db.Model):
         return {'events': list(
                 map(
                     lambda x: x.json(), 
-                    cls.filter_by(session_id=session_id)
+                    cls.query.filter_by(session_id=session_id)
                     )
                 )
             }
@@ -55,7 +56,8 @@ class EventModel(db.Model):
         return  {'events': list(
                 map(
                     lambda x: x.json(), 
-                    cls.query.filter(and_(timestamp >= init_time,timestamp <= end_time))
+                    cls.query.filter(and_(EventModel.timestamp >= init_time,
+                    EventModel.timestamp <= end_time))
                     )
                 )
             }

@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse
+import datetime
 
 
 from models.event import EventModel
@@ -51,10 +52,10 @@ class Event(Resource):
 
 class EventSession(Resource):
 
-    def get_session(self,session_id):
+    def get(self,session_id):
         """ Request all events with a given session_id"""
 
-        events = eventModel.find_by_session_id(session_id)
+        events = EventModel.find_by_session_id(session_id)
         if events:
             return events
         return {'message': 'event not found with that session id'}, 404
@@ -62,10 +63,10 @@ class EventSession(Resource):
 
 class EventCategory(Resource):
 
-    def get_category(self,category):
+    def get(self,category):
         """ Request all events with a given category"""
 
-        events = eventModel.find_by_category(category)
+        events = EventModel.find_by_category(category)
         if events:
             return events
         return {'message': 'event not found in that category'}, 404 
@@ -88,13 +89,17 @@ class EventTimerange(Resource):
                         help="""There needs to be an end time for 
                                 requesting events within a certain timerange"""
                         ) 
-    def get_time_range(self):
+    def get(self):
         """ Reqeuest all events with a given time range"""
-        data = event.parser.parse_args()
-        "2021-01-01 09:15:27.243860"
-        init_time = datetime.datetime.strptime(data["init_time"], "%Y-%m-%d %H:%M:%S.%f").timestamp()
-
-        events = eventModel.find_by_time_range(init_time,end_time)
+        data = EventTimerange.parser.parse_args()
+        
+        #
+        # Converting Data String times to timestamps
+        #
+        init_time = datetime.datetime.strptime(data["init_time"], "%Y-%m-%d %H:%M:%S.%f")
+        end_time = datetime.datetime.strptime(data["end_time"], "%Y-%m-%d %H:%M:%S.%f")
+        
+        events = EventModel.find_by_time_range(init_time,end_time)
         if events:
             return events
         return {'message': 'event not found in that time range'}, 404  

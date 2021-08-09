@@ -54,9 +54,12 @@
 ---
 
 1. Because the applications are "trusted-clients"
-2. Applications are associated to sessions in someother application
+2. Applications are associated to sessions in some other application
 3. The entire event is not passed through the url, e.i /<name>/<category>/
 4. Time-Zone is consistent because no zone is given in the time-stamp
+5. There was a trailing comma by mistake in the first example event message. The comma
+    after the <"path": "/"***,***>
+6. Time Range Get Request will come with a payload defining the initial and end times
 
 ### Required Libraries
 
