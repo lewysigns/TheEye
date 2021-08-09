@@ -36,7 +36,7 @@ class EventModel(db.Model):
         return {'events': list(
                 map(
                     lambda x: x.json(), 
-                    cls.query.filter_by(session_id=session_id)
+                    cls.query.filter_by(session_id=session_id).order_by(EventModel.timestamp)
                     )
                 )
             }
@@ -46,7 +46,7 @@ class EventModel(db.Model):
         return {'events': list(
                 map(
                     lambda x: x.json(), 
-                    cls.query.filter_by(category=category)
+                    cls.query.filter_by(category=category).order_by(EventModel.timestamp)
                     )
                 )
             }
@@ -57,7 +57,7 @@ class EventModel(db.Model):
                 map(
                     lambda x: x.json(), 
                     cls.query.filter(and_(EventModel.timestamp >= init_time,
-                    EventModel.timestamp <= end_time))
+                    EventModel.timestamp <= end_time)).order_by(EventModel.timestamp)
                     )
                 )
             }

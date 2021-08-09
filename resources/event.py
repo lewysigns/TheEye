@@ -47,7 +47,7 @@ class Event(Resource):
         except:
             return {"message": "An error occurred inserting the event."}, 500
 
-        return event.json(), 201
+        return {"message": "Event has been Saved!"}, 201
 
 
 class EventSession(Resource):
