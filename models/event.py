@@ -1,6 +1,7 @@
 from db import db
 from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy import and_
+from taskmanager import celery
 
 
 class EventModel(db.Model):
@@ -61,7 +62,7 @@ class EventModel(db.Model):
                     )
                 )
             }
-
+    @celery.task(bind=True)        
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()

@@ -43,7 +43,7 @@ class Event(Resource):
         event = EventModel(**data)
 
         try:
-            event.save_to_db()
+            event.save_to_db.delay()
         except:
             return {"message": "An error occurred inserting the event."}, 500
 

@@ -71,3 +71,5 @@
 * dotenv
 * sqlalchemy
 * psycopg2
+* celery
+* redis

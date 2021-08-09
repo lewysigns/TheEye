@@ -9,6 +9,7 @@ import os
 #
 # Local Libraries
 #
+from taskmanager import celery
 from resources.event import Event,EventSession,EventCategory,EventTimerange
 
 
@@ -22,7 +23,7 @@ from resources.event import Event,EventSession,EventCategory,EventTimerange
 #
 
 load_dotenv()
-database_uri = os.environ["DATABASE_URI"]
+database_uri   = os.environ["DATABASE_URI"]
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
@@ -43,5 +44,8 @@ api.add_resource(EventTimerange,'/event/timerange/') # Get by time range
 
 if __name__ == '__main__':
     from db import db
+    
     db.init_app(app)
+    celery.init_app(app)
     app.run(port=5000, debug=True)
+
