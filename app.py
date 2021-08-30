@@ -9,7 +9,8 @@ import os
 #
 # Local Libraries
 #
-from resources.event import Event,EventSession,EventCategory,EventTimerange
+from db import db
+from resources.event import Event
 
 
 #
@@ -37,11 +38,8 @@ def create_tables():
 # Adding all the resources an application can use to interface with the database
 #
 api.add_resource(Event,'/event/') # Post an event
-api.add_resource(EventSession,'/event/session/<string:session_id>') # Get by session id
-api.add_resource(EventCategory,'/event/category/<string:category>') # Get by category
-api.add_resource(EventTimerange,'/event/timerange/') # Get by time range
 
 if __name__ == '__main__':
-    from db import db
+    
     db.init_app(app)
     app.run(port=5000, debug=True)
