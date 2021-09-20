@@ -53,7 +53,7 @@
 
 ---
 
-1. Because the applications are "trusted-clients"
+1. Because the applications are "trusted-clients", I do not have to add authentication
 2. Applications are associated to sessions in some other application
 3. The entire event is not passed through the url, e.i /<name>/<category>/
 4. Time-Zone is consistent because no zone is given in the time-stamp
@@ -73,3 +73,11 @@
 * psycopg2
 * celery
 * redis
+
+## Conclusions
+
+---
+
+This git repository has a flask api that can receive events and store them appropriately in a database. The application responds with each event, both if a failure occurs or upon success. There was an attempt to process multiple events in the background using celery, but I kept running into issues and decided the time spent was getting to long to resolve. I believe it is something minor that I would be able to resolve with a team to bounce errors off of. Because of this, I was not able to test the race condition logic in place as well. Both of these can be found in the *background* branch of the repository.
+
+Thank you for the experience!
