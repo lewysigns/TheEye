@@ -51,26 +51,10 @@ class EventModel(db.Model):
                     cls.query.filter(and_(EventModel.timestamp >= init_time,
                     EventModel.timestamp <= end_time)).order_by(EventModel.timestamp)]
             }              
-    @celery.task(bind=True)        
-    def save_to_db(self):
-
-        #
-        # Placing a unqiue lock , that can only be owned
-        # by a single worker at a time to prevent race conditions
-        #
-
-        have_lock = False
-        save_lock = redis.Redis().lock("my_key")
-        try:
-            have_lock = my_lock.acquire(blocking=False)
-            if have_lock:
-                db.session.add(self)
-                db.session.commit()
-        finally:
-            if have_lock:
-                my_lock.release()
-
-
+    @celery.task()        
+    def save_to_db(event):
+        db.session.add(event)
+        db.session.commit()
 
     def delete_from_db(self):
         db.session.delete(self)

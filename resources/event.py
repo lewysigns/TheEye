@@ -54,7 +54,7 @@ class Event(Resource):
                                 requesting events within a certain timerange"""
                         )   
 
-    def parse_time_range(self):
+    def parse_time_range():
         """ parse time range payload for query """
         data = Event.time_parser.parse_args()
 
@@ -66,7 +66,7 @@ class Event(Resource):
         
         return (init_time,end_time)
 
-    def process_filter(self,):
+    def process_filter():
         """ Process Query parameter to set appropriate filter """
         filter_args = request.args.get('filter',None)
         print(filter_args)
@@ -79,14 +79,14 @@ class Event(Resource):
 
         return (filter,None)
 
-    @celery.task(bind=True)    
-    def get(self):
+    @celery.task()    
+    def get():
         """ Get request with multiple query options"""
 
         #
         # process filters
         #
-        (filter,filter_arg) = self.process_filter()
+        (filter,filter_arg) = Event.process_filter()
         
         #
         # if statement tree
@@ -98,7 +98,7 @@ class Event(Resource):
         elif filter == "category":
             events = EventModel.find_by_category(filter_arg)
         elif filter == "time":
-            (init_time,end_time) = self.parse_time_range()
+            (init_time,end_time) = Event.parse_time_range()
             events = EventModel.find_by_time_range(init_time,end_time)
         else:
             return {'message': f'requested filter, {filter}, currenlty not supported'},400
@@ -114,7 +114,7 @@ class Event(Resource):
         event = EventModel(**data)
 
         try:
-            event.save_to_db()
+            EventModel.save_to_db(event)
         except:
             return {"message": "An error occurred inserting the event."}, 500
 

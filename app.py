@@ -11,43 +11,39 @@ import os
 #
 #from taskmanager import celery
 from taskmanager import celery
+from config import Config
 from resources.event import Event
 from db import db
-from resources.event import Event
 
 
+def create_app():
 
-#
-# The .env file contains all of the configuration parameters
-#
-# NOTE: This file will need to be created by the user to run the application. 
-#       It should be placed at the same directory level as app.py
-#       The syntax should look as follows:
-#               DATABASE_URI = "<Your_database_uri_here>"
-#
+    app = Flask(__name__)
 
-load_dotenv()
-database_uri   = os.environ["DATABASE_URI"]
-celery_url     = os.environ["CELERY_URL"]
+    # Configure the flask app instance
+    CONFIG_TYPE = os.getenv('CONFIG_TYPE', default='config.Config')
+    app.config.from_object(CONFIG_TYPE)
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
-app.config['CELERY_BROKER_URL'] = celery_url
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Deprecated configuration, need to set to false to avoid warning.
-api    = Api(app)
-celery.config_from_object(app)
+    # Configure celery
+    celery.conf.update(app.config)  
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
+    api    = Api(app)
 
-#
-# Adding all the resources an application can use to interface with the database
-#
-api.add_resource(Event,'/event/') # Get/Post an event
+    #
+    # Adding all the resources an application can use to interface with the database
+    #
+    api.add_resource(Event,'/event/') # Get/Post an event
 
+    return app
+    
 if __name__ == '__main__':
     
+    app = create_app()
+
+    @app.before_first_request
+    def create_tables():
+        db.create_all()
+        
     db.init_app(app)
     app.run(port=5000, debug=True)
 
