@@ -50,7 +50,8 @@ class EventModel(db.Model):
         return  {'events': [x.json() for x in 
                     cls.query.filter(and_(EventModel.timestamp >= init_time,
                     EventModel.timestamp <= end_time)).order_by(EventModel.timestamp)]
-            }              
+            }        
+                  
     @celery.task()        
     def save_to_db(event):
         db.session.add(event)
